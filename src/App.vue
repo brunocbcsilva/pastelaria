@@ -1,29 +1,52 @@
+/* eslint-disable */
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <div class="blur-pastel"></div>
+        <header-page />
+        <form-pedidos />
+        <!--<router-view/>-->
     </div>
-    <router-view />
-  </div>
 </template>
 
+<script>
+    import HeaderPage from "./components/HeaderPage";
+    import FormPedidos from "./components/FormPedidos";
+
+    export default {
+        name: "app",
+        components: {
+            HeaderPage,
+            FormPedidos,
+        }
+    };
+</script>
+
 <style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+    @import "./styles/_mixins.scss";
+
+    .blur-pastel {
+        display: none;
+
+        @media( min-width: 1366px ) {
+            display: block;
+            position: absolute;
+            top: 26%;
+            left: 0;
+            z-index: 110;
+            width: 555px - 280px;
+            height: 555px - 280px;
+            background: transparent url('./assets/pastel-paralax.png');
+            background-size: cover;
+            opacity: 1;
+            filter: blur(5px);
+        }
+
+        @media( min-width: 1680px ) {
+            top: 8%;
+            left: 3%;
+            z-index: 110;
+            width: 555px;
+            height: 555px;
+        }
     }
-  }
-}
 </style>

@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: $font-style;
+  @include bg-retina("../assets/pattern.png", "../assets/pattern@2x.png");
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.button {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  min-width: 200px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-weight: 600;
+
+   &.limpar {
+     margin-right: 35px;
+     color: $white;
+     background: $red;
+   }
+
+   &.cadastra {
+     background: $yellow;
+     color: $dark-red;
+   }
+}
