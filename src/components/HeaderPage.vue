@@ -1,5 +1,5 @@
 <template>
-  <header class="top-page container-fluid">
+  <header class="top-page container-fluid" id="header-page">
     <div class="logo"></div>
     <div class="double-pastel"></div>
   </header>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "HeaderPage"
+  name: "HeaderPage",
 };
 </script>
 
