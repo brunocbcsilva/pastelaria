@@ -85,14 +85,19 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="inputs">
-								<input type="file" class="col" @change="onFileChange($event)">
+								<!--<input type="file" class="col" @change="onFileChange($event)">-->
+								<div class="file-drop-area">
+									<span class="fake-btn"></span>
+									<span class="file-msg">{{ fileName }}</span>
+									<input class="file-input" type="file" @change="onFileChange($event)">
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<footer class="card-footer">
-				<button type="button" class="button limpar">Limpar</button>
+				<button type="button" class="button limpar" @click="resetForm">Limpar</button>
 				<button type="button" class="button cadastra" @click="create">Cadastrar</button>
 			</footer>
 		</div>
@@ -101,23 +106,24 @@
 
 <script>
     import Inputs from "./Inputs";
-    import { Money } from 'v-money'
+    import {Money} from 'v-money'
 
     export default {
         name: "FormPedidos",
         components: {
             Inputs,
-	        Money
+            Money
         },
         data() {
             return {
+                fileName: 'Arraste sua imagem ou clique para localizar a pasta.',
                 form: {
                     drink: false,
                     title: 'Ajeita o PPT',
                     taste: 'Arrumar PPT com 1966 Slides',
                     amount: 39.99,
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-	                file: '',
+                    file: '',
                 },
 
                 moneyConfig: {
@@ -130,15 +136,34 @@
                 }
             }
         },
-	    methods: {
+        methods: {
+            resetForm() {
+                this.fileName = 'Arraste sua imagem ou clique para localizar a pasta.';
+                this.form = {
+                    drink: this.form.drink,
+                    title: '',
+                    taste: '',
+                    amount: 0,
+                    description: '',
+                    file: '',
+                };
+            },
+
             create() {
-              this.$store.dispatch('addStorage', { form: this.form })
+                let create = this.$store.dispatch('createItem', {
+                    item: this.form
+                });
+
+                // if (create) this.resetForm();
             },
 
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
+
                 if (!files.length)
                     return;
+
+                this.fileName = files[0]["name"];
                 this.createImage(files[0]);
             },
 
@@ -151,12 +176,8 @@
                     vm.form.file = e.target.result;
                 };
                 reader.readAsDataURL(file);
-            },
-
-            removeImage: function () {
-                this.form.file = '';
             }
-	    }
+        }
     };
 </script>
 
@@ -192,7 +213,7 @@
 			height: 83px;
 			background: $yellow;
 			color: $dark-red;
-			border-radius: 20px 20px 0px 0px;
+			border-radius: $card-header-radius;
 
 			h4 {
 				font: Bold Italic 24px/29px Roboto;
@@ -204,8 +225,8 @@
 			padding-left: 1rem;
 			padding-right: 1rem;
 			padding-bottom: 1.5rem;
-			box-shadow: 0px 0px 30px rgba(116, 11, 11, 0), 0px 30px 30px rgba(116, 11, 11, 0.1), 0px 15px 30px rgba(116, 11, 11, 0.1);
-			border-radius: 0px 0px 20px 20px;
+			box-shadow: $panel-shadow;
+			border-radius: $card-body-radius;
 			transform: translateY(-$translateY);
 		}
 
@@ -255,11 +276,57 @@
 	}
 
 	.label-l {
-		margin-right:15px;
+		margin-right: 15px;
 		margin-bottom: 0;
 	}
+
 	.label-r {
-		margin-left:15px;
+		margin-left: 15px;
 		margin-bottom: 0;
+	}
+
+	.file-drop-area {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		padding: 25px;
+		border: 1px dashed rgba(0, 0, 255, 0);
+		/*border-radius: 3px;
+		transition: 0.2s;*/
+		/*&.is-active {
+			background-color: rgba(255, 255, 255, 0.05);
+		}*/
+	}
+
+	.fake-btn {
+		flex-shrink: 0;
+		width: 48px;
+		height: 48px;
+		background: transparent url("../assets/upload-image.svg") center center;
+	}
+
+	.file-msg {
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 21px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: $dark-red;
+	}
+
+	.file-input {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		cursor: pointer;
+		opacity: 0;
+		&:focus {
+			outline: none;
+		}
 	}
 </style>

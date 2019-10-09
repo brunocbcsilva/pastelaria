@@ -8,3 +8,8 @@
     background-image: url($bg2x);
   }
 }
+
+@mixin square($value) {
+  width: $value;
+  height: $value;
+}

@@ -6,6 +6,15 @@
         </div>
         <header-page/>
         <form-pedidos/>
+        <media-list
+                v-for="(item, i) in menuList"
+                :key="i"
+                :title="item.title"
+                :amount="item.amount"
+                :taste="item.taste"
+                :description="item.description"
+                :file="item.file"
+        />
         <!--<router-view/>-->
     </div>
 </template>
@@ -13,6 +22,7 @@
 <script>
     import HeaderPage from "./components/HeaderPage";
     import FormPedidos from "./components/FormPedidos";
+    import MediaList from "./components/MediaList";
 
     import Parallax from "parallax-js"
 
@@ -21,11 +31,23 @@
         components: {
             HeaderPage,
             FormPedidos,
+            MediaList,
+        },
+        data() {
+            return {
+                menuList: []
+            }
         },
         mounted() {
             let parallaxTarget = document.getElementById('parallax-target');
             let parallaxScene = new Parallax(parallaxTarget);
             this.$store.dispatch('initMenu');
+            this.getMenuList();
+        },
+        methods: {
+            getMenuList() {
+                return (this.menuList = this.$store.state.menuList);
+            }
         }
     };
 </script>

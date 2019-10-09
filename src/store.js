@@ -5,38 +5,50 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        storegeKey: 'menuItens',
-        menuItens: []
+        storegeDisk: window.localStorage,
+        storegeKey: 'menuList',
+        menuList: []
     },
     mutations: {
-        SET_MENU_ITEM(stage, {menuItens}) {
-            stage.menuItens = JSON.stringify(menuItens);
+        SET_MENU_LIST (state, payload) {
+            state.menuList = payload.list;
         },
-        ADD_MENU_ITENS(stage, payload) {
-          stage.menuItens.push(payload.form)
+        ADD_MENU_LIST (state, payload) {
+            state.menuList.push(payload.list);
         }
     },
     actions: {
-        initMenu({commit, state}) {
-            const STOREGE_KEY = state.storegeKey;
-            const APP_STORAGE = window.localStorage;
-            const GET_MENU = APP_STORAGE.getItem(STOREGE_KEY);
+        initMenu ({state, commit}) {
+            console.log("initMenu()");
+            if(!state.storegeDisk.getItem(state.storegeKey)) {
+                state.storegeDisk.setItem(state.storegeKey, "[]");
+                return
+            }
 
-            if (GET_MENU) {
-                commit('SET_MENU_ITEM', {menuItens: GET_MENU})
-            } else {
-                APP_STORAGE.setItem(STOREGE_KEY, "[]");
+            const menuList = JSON.parse(state.storegeDisk.getItem(state.storegeKey))
+
+            if (menuList.length > 0) {
+                commit('SET_MENU_LIST', {
+                    list: menuList
+                })
             }
         },
-        addStorage({commit, state}, {form}) {
-            let local = window.localStorage;
-            let getStorage = local.getItem(state.storegeKey);
-            let itens = JSON.parse(getStorage);
 
-            itens.push(form);
-            local.setItem(state.storegeKey, JSON.stringify(itens))
+        createItem ({state, commit}, payload) {
+            console.log("createItem()");
+            let menuList = JSON.parse(state.storegeDisk.getItem(state.storegeKey));
 
-            commit('ADD_MENU_ITENS', { form: form })
+            if(Array.isArray(menuList)) {
+                menuList.push(payload.item);
+                state.storegeDisk.setItem(state.storegeKey, JSON.stringify(menuList));
+                commit('ADD_MENU_LIST', {
+                    list: menuList
+                });
+
+                return true;
+            }
+
+            return;
         }
     }
 });

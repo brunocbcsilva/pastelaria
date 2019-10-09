@@ -14,20 +14,6 @@
 				@input="$emit('input', $event.target.value)"
 		>
 	</div>
-	<!--
-	<div class="form-group">
-	  <label :for="forId">{{ label }}</label>
-	  <input
-			  :id="forId"
-			  :value="value"
-			  v-bind="$attrs"
-			  class="form-control"
-			  :class="inputClass"
-			  @input="$emit('input', $event.target.value)"
-	  >
-	  <slot></slot>
-	</div>
-	-->
 </template>
 
 <script>
