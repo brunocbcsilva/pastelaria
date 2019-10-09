@@ -1,29 +1,25 @@
 <template>
-	<div class="container pb-3">
-		<div class="media row">
-			<header class="media-header d-flex">
-				<div class="col-8 title">{{ title }}</div>
-				<div class="col-4 amount d-flex justify-content-end">R$ {{ amount }}</div>
+	<transition-group name="card-item" tag="div" class="container">
+		<div class="media row mb-4 card-item" v-for="(i, idx) in list" :key="idx">
+			<header class="media-header d-flex" :class="{'drink': i.drink}">
+				<div class="col-8 title">{{ i.title }}</div>
+				<div class="col-4 amount d-flex justify-content-end">R$ {{ i.amount }}</div>
 			</header>
 			<div class="media-body">
-				<div v-if="file != ''" class="media-image" :style="{ backgroundImage: 'url(' + file + ')' }"></div>
+				<div v-if="i.file != ''" class="media-image" :style="{ backgroundImage: 'url(' + i.file + ')' }"></div>
 				<div v-else class="media-image"></div>
-				<p><strong>Sabor:</strong> {{ taste }}</p>
-				<p><strong>Descrição:</strong> {{ description }}</p>
+				<p><strong>Sabor:</strong> {{ i.taste }}</p>
+				<p><strong>Descrição:</strong> {{ i.description }}</p>
 			</div>
 		</div>
-	</div>
+	</transition-group>
 </template>
 
 <script>
     export default {
         name: "MediaList",
         props: {
-            title: String,
-            amount: [String, Number],
-            taste: String,
-            description: String,
-            file: String,
+            list: Array
         },
         data() {
           return {
@@ -37,6 +33,29 @@
 <style scoped lang="scss">
 	@import "../styles/variables";
 	@import "../styles/mixins";
+
+	.card-item {
+		transition: all 0.5s;
+
+	}
+	.card-item-enter, .card-item-leave-to
+		/* .card-item-leave-active for <2.1.8 */ {
+		opacity: 0;
+		transform: scale(0);
+	}
+	.card-item-enter-to {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.card-item-leave-active {
+		/*position: absolute;*/
+	}
+
+	.card-item-move {
+		opacity: 1;
+		transition: all 0.5s;
+	}
 
 	.media {
 		position: relative;
@@ -64,6 +83,14 @@
 			background: $red;
 			border-radius: $card-header-radius;
 			padding: 1.15rem 1rem 1.15rem 10rem;
+
+			&.drink {
+				background: #3dcaff;
+
+				.title {
+					color: $white;
+				}
+			}
 
 			%font-header {
 				letter-spacing: 0;

@@ -5,7 +5,7 @@ import store from "./store";
 
 import "./styles/pastelaria.scss";
 
-import { Plugin } from 'vue-fragment'
+import { Plugin } from 'vue-fragment';
 Vue.use(Plugin)
 
 Vue.config.productionTip = false;

@@ -42,7 +42,7 @@ export default new Vuex.Store({
                 menuList.push(payload.item);
                 state.storegeDisk.setItem(state.storegeKey, JSON.stringify(menuList));
                 commit('ADD_MENU_LIST', {
-                    list: menuList
+                    list: payload.item
                 });
 
                 return true;

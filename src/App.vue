@@ -6,15 +6,8 @@
         </div>
         <header-page/>
         <form-pedidos/>
-        <media-list
-                v-for="(item, i) in menuList"
-                :key="i"
-                :title="item.title"
-                :amount="item.amount"
-                :taste="item.taste"
-                :description="item.description"
-                :file="item.file"
-        />
+
+        <media-list :list="menuList" />
         <!--<router-view/>-->
     </div>
 </template>

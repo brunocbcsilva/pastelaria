@@ -1,7 +1,7 @@
 <template>
 	<fragment>
 		<div class="container card p-0">
-			<header class="card-header d-flex">
+			<header class="card-header d-flex" :class="{'drink': form.drink}">
 				<div class="col-8">
 					<h4>Monte aqui seu cardápio. O que está esperando?</h4>
 				</div>
@@ -154,7 +154,17 @@
                     item: this.form
                 });
 
-                // if (create) this.resetForm();
+                if (create) {
+                    let msg = "Pastel cadastrado com sucesso!"
+	                if(this.form.drink)
+	                    msg = "Bebida cadastrada com sucesso!";
+
+                    this.resetForm();
+
+                    return;
+                };
+
+                this.$Message.error("Não foi possivel cadastra este item.");
             },
 
             onFileChange(e) {
@@ -214,6 +224,12 @@
 			background: $yellow;
 			color: $dark-red;
 			border-radius: $card-header-radius;
+			transition: all 500ms ease;
+
+			&.drink {
+				background: #3dcaff;
+				color: $white;
+			}
 
 			h4 {
 				font: Bold Italic 24px/29px Roboto;
