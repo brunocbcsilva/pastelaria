@@ -20,7 +20,8 @@
 					</div>
 				</div>
 			</header>
-			<div class="card-body">
+
+			<section class="card-body">
 				<div class="content">
 					<!--
 							* titulo
@@ -39,6 +40,7 @@
 									required
 							/>
 						</div>
+
 						<div class="col-lg-5 pl-0">
 							<inputs
 									index="taste"
@@ -50,6 +52,7 @@
 									required
 							/>
 						</div>
+
 						<div class="col-lg-2 pl-0">
 							<div class="inputs">
 								<label for="amount" class="col-auto">R$</label>
@@ -63,6 +66,7 @@
 							</div>
 						</div>
 					</div>
+
 					<!--
 					* descrição
 					-->
@@ -80,13 +84,13 @@
 							</div>
 						</div>
 					</div>
+
 					<!--
 					* file
 					-->
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="inputs">
-								<!--<input type="file" class="col" @change="onFileChange($event)">-->
 								<div class="file-drop-area">
 									<span class="fake-btn"></span>
 									<span class="file-msg">{{ fileName }}</span>
@@ -96,7 +100,8 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
+
 			<footer class="card-footer">
 				<button type="button" class="button limpar" @click="resetForm">Limpar</button>
 				<button type="button" class="button cadastra" @click="create" :disabled="submitDisabled">Cadastrar</button>

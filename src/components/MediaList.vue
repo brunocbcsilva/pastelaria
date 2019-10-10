@@ -1,7 +1,6 @@
 <template><!--eslint-disable-->
     <transition-group name="media" tag="div" class="container">
-	    <div class="media row mb-4"></div>
-        <div class="media row mb-4" v-for="(i, idx) in list" :key="idx">
+	    <div class="media row mb-4" v-for="(i, idx) in list" :key="idx">
             <header class="media-header d-flex" :class="{'drink': i.drink}">
                 <div class="col-8 title">{{ i.title }}</div>
                 <div class="col-4 amount d-flex justify-content-end">
@@ -9,12 +8,13 @@
                     <button type="button" class="button_remove" @click="removeItem(i)">&times;</button>
                 </div>
             </header>
-            <div class="media-body">
+
+            <section class="media-body">
                 <div v-if="i.file != ''" class="media-image" :style="{ backgroundImage: 'url(' + i.file + ')' }"></div>
                 <div v-else class="media-image"></div>
                 <p><strong>Sabor:</strong> {{ i.taste }}</p>
                 <p><strong>Descrição:</strong> {{ i.description || 'Produto sem descrição.' }}</p>
-            </div>
+            </section>
         </div>
     </transition-group>
 </template>

@@ -9,20 +9,19 @@
 
         <form-pedidos></form-pedidos>
 
-        <div v-show="menuList.length" class="container pb-3">
+        <section v-show="menuList.length" class="container pb-3">
             <h4 class="text-center">Filtros</h4>
+
             <div class="row justify-content-center">
                 <button type="button" class="button cadastra" @click="filtered = 'all'" :disabled="filtered == 'all'">Todos</button>
                 <button type="button" class="button limpar mr-3 ml-3" @click="filtered = 'food'" :disabled="filtered == 'food'">Pasteis</button>
                 <button type="button" class="button bebidas" @click="filtered = 'drink'" :disabled="filtered == 'drink'">Bebidas</button>
             </div>
-        </div>
+        </section>
 
         <media-list v-if="filteredItem.length" :list="filteredItem"/>
 
         <div v-else class="container card-empty">Não há registros.</div>
-
-        <!--<router-view/>-->
     </div>
 </template>
 

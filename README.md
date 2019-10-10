@@ -8,6 +8,16 @@ node --version
 ````
 npm --version
 ````
+
+Verifique ou instale o Vue CLI
+> check version
+````
+vue --version
+````
+> install
+````
+npm install -g @vue/cli
+````
 Clone o projeto para sua maquina e acesse a pasta após clonar
 
 ````

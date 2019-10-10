@@ -44,7 +44,6 @@ export default new Vuex.Store({
             state.storegeDisk.setItem(state.storegeKey, JSON.stringify(payload.obj));
         },
         async createItem({state, commit, dispatch}) {
-            console.log("createItem()");
             if (!Array.isArray(state.menuList))
                 return false;
 
