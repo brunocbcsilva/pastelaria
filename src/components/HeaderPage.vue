@@ -18,18 +18,29 @@ export default {
     position: relative;
     background: transparent url("../assets/wave.svg") 0% 0% no-repeat;
     height: 100%;
-    padding-top: 61px;
-    max-height: 546px;
+    padding-top: 2rem;
+    max-height: 380px;
+
+    @media(min-width: 1200px) {
+      height: 100%;
+      padding-top: 61px;
+      max-height: 546px;
+    }
   }
 
   .logo {
-    margin: 0 auto;
-    transform: translateX(-8%);
+    background:rgba(255,255,255,0) url("../assets/logo.svg") 0% 0% no-repeat padding-box;
+    background-size: contain;
     width: 100%;
     max-width: 736px;
     height: 100%;
-    max-height: 263px;
-    background:rgba(255,255,255,0) url("../assets/logo.svg") 0% 0% no-repeat padding-box;
+
+    @media(min-width: 1200px) {
+      max-height: 263px;
+      margin: 0 auto;
+      transform: translateX(-8%);
+      background:rgba(255,255,255,0) url("../assets/logo.svg") 0% 0% no-repeat padding-box;
+    }
   }
 
   .double-pastel {

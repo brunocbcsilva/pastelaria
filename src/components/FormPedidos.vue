@@ -41,7 +41,7 @@
 							/>
 						</div>
 
-						<div class="col-lg-5 pl-0">
+						<div class="col-lg-5 pl-lg-0">
 							<inputs
 									index="taste"
 									label="Sabor"
@@ -53,7 +53,7 @@
 							/>
 						</div>
 
-						<div class="col-lg-2 pl-0">
+						<div class="col-lg-2 pl-lg-0">
 							<div class="inputs">
 								<label for="amount" class="col-auto">R$</label>
 								<money
@@ -249,8 +249,13 @@
 			}
 
 			h4 {
-				font: Bold Italic 24px/29px Roboto;
-				padding-left: 40px;
+				font: Bold Italic 18px/22px Roboto;
+				padding-left: 1rem;
+
+				@media (min-width: 1200px) {
+					font: Bold Italic 24px/29px Roboto;
+					padding-left: 40px;
+				}
 			}
 		}
 
@@ -260,12 +265,24 @@
 			padding-bottom: 1.5rem;
 			box-shadow: $panel-shadow;
 			border-radius: $card-body-radius;
-			transform: translateY(-$translateY);
+
+			@media (min-width: 1200px) {
+				transform: translateY(-$translateY);
+			}
 		}
 
 		.card-footer {
 			text-align: center;
-			transform: translateY(-$translateY * 2);
+
+			@media (min-width: 1200px) {
+				transform: translateY(-$translateY * 2);
+			}
+
+			.button {
+				@media (max-width: 480px) {
+					width: 100%;
+				}
+			}
 		}
 	}
 
