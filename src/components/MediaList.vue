@@ -13,7 +13,7 @@
                 <div v-if="i.file != ''" class="media-image" :style="{ backgroundImage: 'url(' + i.file + ')' }"></div>
                 <div v-else class="media-image"></div>
                 <p><strong>Sabor:</strong> {{ i.taste }}</p>
-                <p><strong>Descrição:</strong> {{ i.description }}</p>
+                <p><strong>Descrição:</strong> {{ i.description || 'Produto sem descrição.' }}</p>
             </div>
         </div>
     </transition-group>
