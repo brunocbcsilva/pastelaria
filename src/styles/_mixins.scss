@@ -13,3 +13,9 @@
   width: $value;
   height: $value;
 }
+
+@mixin location($pos: absolute, $top: 0, $left: 0) {
+  position: $pos;
+  top: $top;
+  left: $left;
+}

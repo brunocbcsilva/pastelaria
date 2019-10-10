@@ -1,11 +1,12 @@
 <template><!--eslint-disable-->
-    <transition-group name="card-item" tag="div" class="container">
-        <div class="media row mb-4 card-item" v-for="(i, idx) in list" :key="idx">
+    <transition-group name="media" tag="div" class="container">
+	    <div class="media row mb-4"></div>
+        <div class="media row mb-4" v-for="(i, idx) in list" :key="idx">
             <header class="media-header d-flex" :class="{'drink': i.drink}">
                 <div class="col-8 title">{{ i.title }}</div>
                 <div class="col-4 amount d-flex justify-content-end">
                     R$ {{ i.amount }}
-                    <button type="button" @click="removeItem(i)">&times;</button>
+                    <button type="button" class="button_remove" @click="removeItem(i)">&times;</button>
                 </div>
             </header>
             <div class="media-body">
@@ -27,14 +28,22 @@
         },
         data() {
             return {
-                noImg: "../assets/no-image.png"
+                noImg: "../assets/no-image.png",
             }
         },
         methods: {
             removeItem(item) {
-                let index = this.list.indexOf(item);
-                this.list.splice(index, 1);
-            }
+                this.$store.commit('REMOVE_ITEM', {
+                    item: item
+                });
+
+                this.$store.dispatch('storageSave', { obj: this.list });
+                this.$toast.warning(`${item.title} removido com sucesso.`, "OK");
+            },
+	        editItem(item) {
+                this.$store.commit('EDIT_ITEM', { item: item });
+                this.$store.commit('SHOW_MODAL');
+	        },
         }
     };
 </script>
@@ -44,30 +53,37 @@
     @import "../styles/variables";
     @import "../styles/mixins";
 
-    .card-item {
-        transition: all 0.5s;
+    .button_remove {
+	    @include square(32px);
+	    background: $white;
+	    border: 0;
+	    border-radius: 3rem;
+	    font-size: 22px;
+	    line-height: 22px;
+	    color: $dark-red;
+	    margin-left: 1.75rem;
+	    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	    transform: scale(.8) rotate(0);
+	    cursor: pointer;
 
+		&:hover,
+		&:focus {
+			transform: scale(1) rotate(180deg);
+			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+		}
     }
 
-    .card-item-enter, .card-item-leave-to
-        /* .card-item-leave-active for <2.1.8 */
-    {
-        opacity: 0;
-        transform: scale(0);
+    .media-move,
+    .media-enter-active,
+    .media-leave-active {
+	    transition: all 365ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
 
-    .card-item-enter-to {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    .card-item-leave-active {
-        /*position: absolute;*/
-    }
-
-    .card-item-move {
-        opacity: 1;
-        transition: all 0.5s;
+    .media-enter,
+    .media-leave-to {
+	    transform: translateY(-4rem);
+	    opacity: 0;
     }
 
     .media {
@@ -76,6 +92,12 @@
         border-radius: 1.5rem;
         background: $white;
         padding-left: 4rem;
+	    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	    transform: scale(.96);
+
+	    &:hover {
+		    transform: scale(1);
+	    }
 
         .media-image {
             overflow: hidden;
@@ -120,6 +142,7 @@
 
             .amount {
                 @extend %font-header;
+	            position: relative;
                 color: $white;
             }
         }

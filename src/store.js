@@ -8,56 +8,51 @@ export default new Vuex.Store({
     state: {
         storegeDisk: window.localStorage,
         storegeKey: 'menuList',
-        menuList: []
+        menuList: [],
+        editItem: null,
+        showModal: false
     },
     mutations: {
-        SET_MENU_LIST (state, payload) {
+        SET_MENU_LIST(state, payload) {
             state.menuList = payload.list;
         },
-        ADD_MENU_LIST (state, payload) {
-            state.menuList.unshift(payload.list);
+        ADD_MENU_LIST(state, payload) {
+            state.menuList.push(payload.list);
+        },
+        REMOVE_ITEM(state, payload) {
+            let index = state.menuList.indexOf(payload.item);
+            state.menuList.splice(index, 1);
+        },
+        EDIT_ITEM(state, payload) {
+            let index = state.menuList.indexOf(payload.item);
+
+            state.editItem = {
+                index: index,
+                item: payload.item,
+                cache: payload.item
+            }
+        },
+        SHOW_MODAL(state) {
+            state.showModal = !state.showModal;
         }
     },
     actions: {
         async storageFetch({state}) {
             return await JSON.parse(state.storegeDisk.getItem(state.storegeKey));
         },
-        async storageSave({state}, payload) {
-            await state.storegeDisk.setItem(state.storegeKey, JSON.stringify(payload.obj));
+        storageSave({state}, payload) {
+            state.storegeDisk.setItem(state.storegeKey, JSON.stringify(payload.obj));
         },
-        async initMenu ({state, commit, dispatch}) {
-            console.log("initMenu()");
-            const menuList = await dispatch('storageFetch');
-            if(! menuList) {
-                dispatch('storageSave', {
-                    obj: []
-                });
-                return true;
-            } else if(Array.isArray(menuList)) {
-                commit('SET_MENU_LIST', {
-                    list: menuList
-                })
-                return true;
-            } else {
-                return false;
-            }
-        },
-        async createItem ({state, commit, dispatch}, payload) {
+        async createItem({state, commit, dispatch}) {
             console.log("createItem()");
-            let menuList = await dispatch('storageFetch');
+            if (!Array.isArray(state.menuList))
+                return false;
 
-            if(Array.isArray(menuList)) {
-                menuList.push(payload.item);
-                await dispatch('storageSave', {
-                    obj: menuList
-                });
-                commit('ADD_MENU_LIST', {
-                    list: payload.item
-                });
+            dispatch('storageSave', {
+                obj: state.menuList
+            });
 
-                return true;
-            }
-            return;
-        }
+            return true;
+        },
     }
 });

@@ -54,7 +54,7 @@
 							<div class="inputs">
 								<label for="amount" class="col-auto">R$</label>
 								<money
-										v-model="form.amount"
+										v-model.number="form.amount"
 										v-bind="moneyConfig"
 										id="amount"
 										class="col"
@@ -71,7 +71,7 @@
 							<div class="inputs flex-column align-content-start">
 								<label for="description" class="pl-3">Descrição</label>
 								<textarea
-										v-model="form.description"
+										v-model.trim="form.description"
 										id="description"
 										rows="3"
 										class="col-12"
@@ -122,10 +122,10 @@
 				submitDisabled: true,
                 form: {
                     drink: false,
-                    title: 'Ajeita o PPT',
-                    taste: 'Arrumar PPT com 1966 Slides',
-                    amount: 39.99,
-                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+                    title: '',
+                    taste: '',
+                    amount: 0,
+                    description: '',
                     file: '',
                 },
                 moneyConfig: {
@@ -151,7 +151,7 @@
         methods: {
             resetForm() {
                 this.fileName = 'Arraste sua imagem ou clique para localizar a pasta.';
-				submitDisabled: true,
+				this.submitDisabled = true;
                 this.form = {
                     drink: this.form.drink,
                     title: '',
@@ -162,23 +162,21 @@
                 };
             },
 
-            create() {
-                let create = this.$store.dispatch('createItem', {
-                    item: this.form
+            async create() {
+                this.$store.commit('ADD_MENU_LIST', {
+                    list: this.form
                 });
 
-                if (create) {
-                    let msg = "Pastel cadastrado com sucesso!"
-	                if(this.form.drink)
-	                    msg = "Bebida cadastrada com sucesso!";
+                let type = this.form.drink ? "Bebida" : "Pastel";
+                let create = await this.$store.dispatch('createItem');
 
-                    this.$toast.success(msg, "OK");
-	                this.resetForm();
-
+                if(! create) {
+                    this.$toast.error("Algo de errado aconteceu.", "Oh! Não");
                     return;
                 }
 
-                this.$toast.error("Não foi possivel cadastra este item.", "Oh! Não!");
+                this.$toast.success(`${type} cadastrado(a) com sucesso.`, "OK");
+                this.resetForm();
             },
 
             onFileChange(e) {
@@ -241,7 +239,7 @@
 			transition: all 500ms ease;
 
 			&.drink {
-				background: #3dcaff;
+				background: $blue;
 				color: $white;
 			}
 
