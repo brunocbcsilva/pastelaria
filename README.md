@@ -1,4 +1,8 @@
 # Como iniciar a aplicação
+**Quer acessar a aplicação?**
+
+[https://pastelaria88.firebaseapp.com/](https://pastelaria88.firebaseapp.com/)
+
 Abra o terminal 
 Verifique se você possui node e npm instalados
 
