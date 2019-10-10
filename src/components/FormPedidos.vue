@@ -1,4 +1,5 @@
 <template>
+<!-- eslint-disable -->
 	<fragment>
 		<div class="container card p-0">
 			<header class="card-header d-flex" :class="{'drink': form.drink}">
@@ -98,15 +99,16 @@
 			</div>
 			<footer class="card-footer">
 				<button type="button" class="button limpar" @click="resetForm">Limpar</button>
-				<button type="button" class="button cadastra" @click="create">Cadastrar</button>
+				<button type="button" class="button cadastra" @click="create" :disabled="submitDisabled">Cadastrar</button>
 			</footer>
 		</div>
 	</fragment>
 </template>
 
 <script>
+/* eslint-disable */
     import Inputs from "./Inputs";
-    import {Money} from 'v-money'
+    import {Money} from "v-money";
 
     export default {
         name: "FormPedidos",
@@ -117,6 +119,7 @@
         data() {
             return {
                 fileName: 'Arraste sua imagem ou clique para localizar a pasta.',
+				submitDisabled: true,
                 form: {
                     drink: false,
                     title: 'Ajeita o PPT',
@@ -125,7 +128,6 @@
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
                     file: '',
                 },
-
                 moneyConfig: {
                     decimal: ',',
                     thousands: '.',
@@ -136,9 +138,20 @@
                 }
             }
         },
+		watch: {
+        	form: {
+				handler: function(value) {
+					if(value.title && value.taste && value.amount) {
+						return ( this.submitDisabled = false);
+					}
+				},
+				deep: true
+			}
+		},
         methods: {
             resetForm() {
                 this.fileName = 'Arraste sua imagem ou clique para localizar a pasta.';
+				submitDisabled: true,
                 this.form = {
                     drink: this.form.drink,
                     title: '',
@@ -159,12 +172,13 @@
 	                if(this.form.drink)
 	                    msg = "Bebida cadastrada com sucesso!";
 
-                    this.resetForm();
+                    this.$toast.success(msg, "OK");
+	                this.resetForm();
 
                     return;
-                };
+                }
 
-                this.$Message.error("Não foi possivel cadastra este item.");
+                this.$toast.error("Não foi possivel cadastra este item.", "Oh! Não!");
             },
 
             onFileChange(e) {

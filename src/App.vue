@@ -1,5 +1,5 @@
-/* eslint-disable */
 <template>
+<!-- eslint-disable -->
     <div id="app">
         <div id="parallax-target">
             <div class="blur-pastel" data-depth="0.2"></div>
@@ -7,12 +7,13 @@
         <header-page/>
         <form-pedidos/>
 
-        <media-list :list="menuList" />
+        <media-list :list="menuList"/>
         <!--<router-view/>-->
     </div>
 </template>
 
 <script>
+/* eslint-disable */
     import HeaderPage from "./components/HeaderPage";
     import FormPedidos from "./components/FormPedidos";
     import MediaList from "./components/MediaList";
@@ -34,12 +35,13 @@
         mounted() {
             let parallaxTarget = document.getElementById('parallax-target');
             let parallaxScene = new Parallax(parallaxTarget);
-            this.$store.dispatch('initMenu');
-            this.getMenuList();
+
+            if(this.$store.dispatch('initMenu'))
+                this.fetchMenuList();
         },
         methods: {
-            getMenuList() {
-                return (this.menuList = this.$store.state.menuList);
+            async fetchMenuList() {
+                return ( this.menuList = await this.$store.state.menuList );
             }
         }
     };

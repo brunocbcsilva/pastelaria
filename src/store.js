@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -14,40 +15,48 @@ export default new Vuex.Store({
             state.menuList = payload.list;
         },
         ADD_MENU_LIST (state, payload) {
-            state.menuList.push(payload.list);
+            state.menuList.unshift(payload.list);
         }
     },
     actions: {
-        initMenu ({state, commit}) {
+        async storageFetch({state}) {
+            return await JSON.parse(state.storegeDisk.getItem(state.storegeKey));
+        },
+        async storageSave({state}, payload) {
+            await state.storegeDisk.setItem(state.storegeKey, JSON.stringify(payload.obj));
+        },
+        async initMenu ({state, commit, dispatch}) {
             console.log("initMenu()");
-            if(!state.storegeDisk.getItem(state.storegeKey)) {
-                state.storegeDisk.setItem(state.storegeKey, "[]");
-                return
-            }
-
-            const menuList = JSON.parse(state.storegeDisk.getItem(state.storegeKey))
-
-            if (menuList.length > 0) {
+            const menuList = await dispatch('storageFetch');
+            if(! menuList) {
+                dispatch('storageSave', {
+                    obj: []
+                });
+                return true;
+            } else if(Array.isArray(menuList)) {
                 commit('SET_MENU_LIST', {
                     list: menuList
                 })
+                return true;
+            } else {
+                return false;
             }
         },
-
-        createItem ({state, commit}, payload) {
+        async createItem ({state, commit, dispatch}, payload) {
             console.log("createItem()");
-            let menuList = JSON.parse(state.storegeDisk.getItem(state.storegeKey));
+            let menuList = await dispatch('storageFetch');
 
             if(Array.isArray(menuList)) {
                 menuList.push(payload.item);
-                state.storegeDisk.setItem(state.storegeKey, JSON.stringify(menuList));
+                await dispatch('storageSave', {
+                    obj: menuList
+                });
                 commit('ADD_MENU_LIST', {
                     list: payload.item
                 });
 
                 return true;
             }
-
             return;
         }
     }
