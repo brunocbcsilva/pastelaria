@@ -21,6 +21,19 @@ export default {
     padding-top: 2rem;
     max-height: 380px;
 
+    @media(max-width: 480px) {
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @media(min-width: 480px) {
+      max-height: 420px;
+    }
+
+    @media(min-width: 576px) {
+      max-height: 480px;
+    }
+
     @media(min-width: 1200px) {
       height: 100%;
       padding-top: 61px;
@@ -32,12 +45,13 @@ export default {
     background:rgba(255,255,255,0) url("../assets/logo.svg") 0% 0% no-repeat padding-box;
     background-size: contain;
     width: 100%;
-    max-width: 736px;
+    max-width: 576px;
     height: 100%;
+    margin: 0 auto;
 
     @media(min-width: 1200px) {
+      max-width: 736px;
       max-height: 263px;
-      margin: 0 auto;
       transform: translateX(-8%);
       background:rgba(255,255,255,0) url("../assets/logo.svg") 0% 0% no-repeat padding-box;
     }

@@ -3,10 +3,10 @@
 	<fragment>
 		<div class="container card p-0">
 			<header class="card-header d-flex" :class="{'drink': form.drink}">
-				<div class="col-8">
+				<div class="col-12 col-md-8">
 					<h4>Monte aqui seu cardápio. O que está esperando?</h4>
 				</div>
-				<div class="col-4 d-flex justify-content-end">
+				<div class="col-md-4 d-none d-md-flex justify-content-end">
 					<div class="switch-box pr-3">
 						<label for="default" class="label-l">Comida</label>
 						<input
@@ -23,6 +23,22 @@
 
 			<section class="card-body">
 				<div class="content">
+					<!-- bebida / food -->
+					<div class="row pt-3 pb-3 d-md-none">
+						<div class="col-12 d-flex justify-content-center">
+							<div class="switch-box">
+								<label for="default" class="label-l">Comida</label>
+								<input
+										id="default"
+										class="switch-box-input"
+										type="checkbox"
+										v-model="form.drink"
+								/>
+								<label for="default" class="switch-box-slider"></label>
+								<label for="default" class="label-r">Bebida</label>
+							</div>
+						</div>
+					</div>
 					<!--
 							* titulo
 							* sabor
@@ -102,10 +118,10 @@
 				</div>
 			</section>
 
-			<footer class="card-footer">
-				<button type="button" class="button limpar" @click="resetForm">Limpar</button>
-				<button type="button" class="button cadastra" @click="create" :disabled="submitDisabled">Cadastrar</button>
-			</footer>
+			<footer class="card-footer container-fluid d-flex justify-content-center">
+                <button type="button" class="button limpar" @click="resetForm">Limpar</button>
+                <button type="button" class="button cadastra" @click="create" :disabled="submitDisabled">Cadastrar</button>
+            </footer>
 		</div>
 	</fragment>
 </template>
@@ -237,11 +253,16 @@
 
 		.card-header {
 			padding-top: 18px;
-			height: 83px;
+			padding-bottom: 14px;
 			background: $yellow;
 			color: $dark-red;
 			border-radius: $card-header-radius;
 			transition: all 500ms ease;
+
+			@media (min-width: 768px) {
+				height: 83px;
+				padding-bottom: 0;
+			}
 
 			&.drink {
 				background: $blue;
@@ -266,21 +287,24 @@
 			box-shadow: $panel-shadow;
 			border-radius: $card-body-radius;
 
-			@media (min-width: 1200px) {
+			@media (min-width: 768px) {
 				transform: translateY(-$translateY);
 			}
 		}
 
 		.card-footer {
 			text-align: center;
+			transform: translateY(-$translateY);
 
-			@media (min-width: 1200px) {
+			@media (min-width: 768px) {
 				transform: translateY(-$translateY * 2);
 			}
 
 			.button {
-				@media (max-width: 480px) {
-					width: 100%;
+				width: 50%;
+
+				@media (min-width: 992px) {
+					width: 200px;
 				}
 			}
 		}
@@ -294,11 +318,17 @@
 			top: 8px;
 			display: inline-block;
 			height: 8px;
-			width: 32px;
-			background: $white;
+			width: 48px;
+			background: #ddd;
 			border-radius: 8px;
 			cursor: pointer;
 			transition: all 0.2s ease;
+
+			@media(min-width: 768px) {
+				height: 8px;
+				width: 32px;
+				background: $white;
+			}
 
 			&:after {
 				position: absolute;
@@ -312,6 +342,10 @@
 				box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 				content: '';
 				transition: all 0.2s ease;
+
+				@media(min-width: 992px) {
+
+				}
 			}
 		}
 
@@ -319,8 +353,12 @@
 			display: none;
 
 			&:checked ~ .switch-box-slider:after {
-				left: 16px;
+				left: 26px;
 				background: #f5554e;
+
+				@media (min-width: 768px) {
+					left: 16px;
+				}
 			}
 		}
 	}

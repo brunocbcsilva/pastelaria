@@ -12,6 +12,10 @@ body {
   @include bg-retina("../assets/pattern.png", "../assets/pattern@2x.png");
 }
 
+p {
+  word-break: break-word;
+}
+
 #app {
   width: 100%;
   height: 100%;
@@ -22,7 +26,6 @@ body {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  min-width: 200px;
   padding: 12px;
   border: 1px solid transparent;
   border-radius: 30px;
@@ -31,6 +34,21 @@ body {
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
   cursor: pointer;
+
+  @media(max-width: 480px) {
+    display: block;
+    width: 100%;
+    margin-bottom: .75rem;
+  }
+
+  @media(min-width: 992px) {
+    min-width: 200px;
+  }
+
+  &.bt-block {
+    display: block;
+    width: 100%;
+  }
 
   &:hover {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -45,6 +63,33 @@ body {
       background: #ccc;
       color: #aaa;
       box-shadow: none;
+    }
+  }
+
+  &.red {
+    color: $white;
+    background: $red;
+
+    &:hover {
+      background: lighten($red, 8%);
+    }
+  }
+
+  &.blue {
+    color: $white;
+    background: $blue;
+
+    &:hover {
+      background: lighten($blue, 8%);
+    }
+  }
+
+  &.yellow {
+    background: $yellow;
+    color: $dark-red;
+
+    &:hover {
+      background: lighten($yellow, 8%);
     }
   }
 
