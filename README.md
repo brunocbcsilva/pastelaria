@@ -9,7 +9,7 @@ Verifique se você possui node e npm instalados
 ```bash
 node --version
 ```
-``bash
+```bash
 npm --version
 ```
 
